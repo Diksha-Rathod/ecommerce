@@ -1,0 +1,16 @@
+{
+  "type": "mysql",
+  "username": "root",
+  "password": "diksha12@",
+  "database": "ecommerce",
+  "host": "localhost",
+  "logging": true,
+  "synchronize": true,
+  "entities": ["backend/src/entity/**/*.ts"],
+  "migrations": ["src/migration/**/*.ts"],
+  "autoLoadEntities": true,
+  "cli": {
+    "entitiesDir": "backend/src/entity",
+    "migrationsDir": "src/migration"
+  }
+}

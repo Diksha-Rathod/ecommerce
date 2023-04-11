@@ -1,0 +1,83 @@
+<%- include('sidePanel'); -%>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <title>Add Product Form</title>
+      <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"/>
+      <link rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"/>
+    </head>
+    <body>
+      <div style="margin-left:20%">
+        <h2>Add Product form</h2>
+        <form id="uploadForm" enctype="multipart/form-data" method="get"
+          action="/product/List">
+          <div class="form-group">
+            <label for="product Name">ProductName:</label>
+            <input type="text" class="form-control" id="name"
+              placeholder="Enter product name" name="name">
+          </div>
+          <div class="form-group">
+            <label for="Price">Price:</label>
+            <input type="number" class="form-control" id="price"
+              placeholder="Enter product price" name="price">
+          </div>
+
+          <div class="form-group">
+            <label for=" product details">Details:</label>
+            <input type="text" class="form-control" id="details"
+              placeholder="Enter product details" name="details">
+          </div>
+
+          <input type="hidden" id="type" name="type" value="product"/>
+
+          <div class="form-group">
+            <label for="TotalQuantity">TotalQuantity:</label>
+            <input type="number" class="form-control" id="totalQuantity"
+              placeholder="Enter quantity" name="totalQuantity">
+          </div>
+
+          <div class="form-group">
+            <label for="ProductImg">Product Image:</label>
+            <input type="file" class="form-control" id="productImg"
+              name="productImg">
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="submit">Add Product</button>
+        </form>
+      </div>
+
+
+      <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+      </script>
+      <script>
+        $(document).ready(function(){
+                  $("#uploadForm").submit(function() {
+                  let form_data = new FormData(this);
+                  $.ajax({
+                  url:"http://localhost:2020/api/v1/admin/product",
+                  method:"post",
+                  async: false,
+                  contentType: false,
+                  processData: false,
+                  cache: false,
+                  data: form_data,
+                  headers: {"authorization": localStorage.getItem('authorization')},
+                  success: function (data) {
+                    if(data.status === false){
+                      alert(data.message);
+                    }
+                    else{
+                      alert(data.message);
+                    }
+                  }
+                })
+            });   
+         }); 
+      </script>
+    </body>
+  </html>

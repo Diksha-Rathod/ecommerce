@@ -1,0 +1,92 @@
+<%- include('userDashboard'); -%>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"
+        />
+      <title>edit cart</title>
+    </head>
+    <body>
+      <div class="container">
+        <h3 style="margin-left:500px">Edit Cart</h3>
+
+        <div class="form-group">
+          <label for="ProductName">Product Name:</label>
+          <input type="text" class="form-control"
+            id="productName"
+            name="productName" readonly>
+        </div>
+
+        <div class="form-group">
+          <label for="price">price:</label>
+          <input type="number" class="form-control" id="price"
+            name="price" readonly>
+        </div>
+
+        <div class="form-group">
+          <label for="totalAmount">Total Amount :</label>
+          <input type="number" class="form-control"
+            id="totalAmount"
+            name="totalAmount" readonly>
+        </div>
+
+        <div class="form-group">
+          <label for="quantity">Quantity:</label>
+          <input type="number" class="form-control" id="quantity"
+            name="quantity">
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submit">save</button>
+      </div>
+
+      <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script>
+          $(document).ready(function(){
+            load_data();
+            function load_data()
+            {
+                let URL = $(location).attr('href');
+                let id = URL.substring(URL.lastIndexOf('/') + 1);
+               $.ajax({
+                url:'http://localhost:2020/api/v1/cart/'+id,
+               method:"get",
+               headers: {"authorization": localStorage.getItem('authorization')},
+               success:function(data){
+                $('input[name="productName"]').val(data.data[0].productName)
+                $('input[name="price"]').val(data.data[0].price)
+                $('input[name="totalAmount"]').val(data.data[0].totalAmount)
+                $('input[name="quantity"]').val(data.data[0].quantity)
+               }
+              });
+            }
+            $("#submit").click(function () 
+            {
+              let URL = $(location).attr('href');
+              let id = URL.substring(URL.lastIndexOf('/') + 1);
+              $.ajax
+              ({
+                url:"http://localhost:2020/api/v1/cart/"+id,
+                method:"put",
+                headers: {"authorization": localStorage.getItem('authorization')},
+                dataType: "json",
+                data: {
+                  quantity: $("#quantity").val()
+                },
+                success: function (data)
+                {
+                  alert(data.message);
+                  location.replace("/cart")
+                } 
+              });
+           });
+         })
+        </script>
+    </body>
+  </html>

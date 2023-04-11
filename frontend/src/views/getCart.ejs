@@ -1,0 +1,129 @@
+<%- include('userDashboard'); -%>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0">
+      <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"/>
+      <link rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"/>
+      <title>Cart List</title>
+    </head>
+    <style>
+      #Product{
+        margin-top:-40px ;
+      }
+      #order{
+   margin-top:-40px ;
+            }
+    </style>
+    <body>
+      <div class="container">
+        <div>
+
+          <h4><b>Shopping Cart</b></h4>
+          <a href="/user/getProduct">
+            <button type="submit" class="btn
+              btn-primary float-right"
+              id="Product">
+              continue shopping
+              <i class="fas fa-arrow-alt-circle-right "></i>
+            </button>
+          </a>
+          <hr>
+
+        </div>
+        <br>
+
+
+        <table class="table table-hover table-active" id="getcart">
+          <thead>
+            <th>S.No</th>
+           
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>TotalAmount </th>
+            <th>Action</th>
+          </thead>
+          <tbody> </tbody>
+
+        </table>
+        <br>
+        <hr>
+        <h4 id="subTotal"></h4>
+
+
+      </div>
+      <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script>
+            $(document).ready(function () { 
+              load()
+              function load(){
+                $.ajax({
+                    url:'http://localhost:2020/api/v1/cart',
+                    method:"get",
+                    headers: {"authorization": localStorage.getItem('authorization')},
+                    dataType: "json",
+                    success:function(data){
+                      console.log(data)
+                    
+                      let html = '';
+                      let amount='';
+                      let temp=0;
+                      let sno=1;
+
+                      if(data.data.length > 0)
+                      {
+                        for(let count = 0; count < data.data.length; count++)
+                        {
+                          html += `
+                          <tr>
+                          <td>`+sno++ +`</td>
+                          <td>`+data.data[count].productName+`</td>
+                          <td>`+data.data[count].quantity+`</td>
+                          <td>`+data.data[count].price+`</td>
+                          <td>`+data.data[count].totalAmount+`</td>
+                          <td> <a href="/deleteCart/`+data.data[count].id+`"><button type="submit" class="btn btn-danger"
+                         id="submit" ><i class="fas fa-trash"></button></a></td>
+                          <td> <a href="/editCart/`+data.data[count].id+`"><button type="submit" class="btn btn-primary"
+                         id="submit" ><i class="fas fa-edit"></button></a></td>
+                          </tr>
+                          `; 
+                        }
+                        temp=0;
+                        for(var count = 0; count < data.data.length; count++)
+                        {
+                          temp=temp+data.data[count].totalAmount  
+                        }
+                          amount+=`
+                          <h4><b>Sub-Total= `+temp+`</b></h4>
+                          <a href="/confirmOrder">
+                           <button type="submit" class="btn
+                            btn-danger float-right"
+                             id="order">
+                             <i class='fas fa-box-open' aria-hidden="true"></i>
+                               Order Now
+                             </button>
+                           </a>
+                          `;
+                      }
+                      else{
+                        html += `<tr>
+                          <td colspan="7"><center><b>`+data.message+`</b></center></td>
+                         </tr>`;
+                      }
+                      $('#getcart tbody').html(html);
+                      $('#subTotal').html(amount) 
+                    }
+                  })
+                }
+             })
+    </script>
+  </body>
+</html>

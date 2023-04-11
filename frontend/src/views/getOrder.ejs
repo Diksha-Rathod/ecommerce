@@ -1,0 +1,80 @@
+<%- include('userDashboard'); -%>
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<link rel="stylesheet"
+				href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+				integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+				crossorigin="anonymous"
+				/>
+			<title>Order page</title>
+		</head>
+		<body>
+			<div class="container">
+				<table class="table table-hover table-active" id="getOrder">
+					<thead>
+						<th>S No.</th>
+						<th>Product Name</th>
+						<th>Quantity</th>
+						<th>TotalAmount </th>
+						<th>Status</th>
+						<th>Action</th>
+					</thead>
+					<tbody> </tbody>
+				</table>
+			</div>
+			<script
+				src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+			<script>
+				$(document).ready(function () { 
+				  load()
+				  function load(){
+					$.ajax({
+						url:'http://localhost:2020/api/v1/order',
+						method:"get",
+						headers: {"authorization": localStorage.getItem('authorization')},
+						dataType: "json",
+						success:function(data){
+						  var html = '';
+						  let sno=1;
+						  if(data.data.length > 0)
+						  {
+							for(var count = 0; count < data.data.length; count++)
+							{
+								if(data.data[count].status==="Refunded"){
+									html += `
+									<tr>
+									<td>`+ sno++ +`</td>
+									<td>`+data.data[count].productName+`</td>
+									<td>`+data.data[count].quantity+`</td>
+									<td>`+data.data[count].amount+`</td>
+									<td>`+data.data[count].status+`</td>
+									<td> -- </td>
+									</tr>
+									`;
+								}else{
+									html += `
+									<tr>
+									<td>`+ sno++ +`</td>
+									<td>`+data.data[count].productName+`</td>
+									<td>`+data.data[count].quantity+`</td>
+									<td>`+data.data[count].amount+`</td>
+									<td>`+data.data[count].status+`</td>
+									<td> <a href="/cancelOrder/`+data.data[count].id+`"><button type="submit" class="btn btn-danger"
+									id="submit" >Cancel Order</button></a></td>
+									</tr>
+									`;
+								}
+							}
+						  }
+						  $('#getOrder tbody').html(html);
+						}
+					  })
+				   }
+				 })
+			  </script>
+		</body>
+	</html>

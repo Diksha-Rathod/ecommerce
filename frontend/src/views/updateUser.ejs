@@ -1,0 +1,97 @@
+<%- include('userDashboard'); -%>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <title>Add Product Form</title>
+      <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    </head>
+
+    <body>
+      <div class="container">
+        <h2>Edit User profile</h2>
+        <form id="uploadForm" enctype="multipart/form-data" method="get"
+          action="/user/profilepage">
+          <div class="form-group">
+            <label for="name">FullName:</label>
+            <input type="text" class="form-control" id="fullName"
+              name="fullName">
+          </div>
+
+          <div class="form-group">
+            <label for="name">Email:</label>
+            <input type="email" class="form-control" id="email"
+              name="email" readonly>
+          </div>
+
+
+          <div class="form-group">
+            <label for="Date Of Birth">Date Of Birth:</label>
+            <input type="date" class="form-control" id="DOB"
+              name="DOB">
+          </div>
+
+          <input type="hidden" id="type" name="type" value="user"/>
+
+          <div class="form-group">
+            <label for="Contact Number">Contact Number:</label>
+            <input type="number" class="form-control" id="ContactNumber"
+              name="ContactNumber">
+          </div>
+
+          <div class="form-group">
+            <label for="profile Image">profile Image:</label>
+            <input type="file" class="form-control" id="profileImg"
+              name="profileImg">
+          </div>
+          <br>
+          <button type="submit" class="btn btn-primary" id="submit">Save</button>
+          <br>
+
+        </div>
+      </form>
+      <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script>
+      $(document).ready(function () {
+        load_data();
+            function load_data()
+            {
+                let URL = $(location).attr('href');
+                let id = URL.substring(URL.lastIndexOf('/') + 1);
+               $.ajax({
+                url:'http://localhost:2020/api/v1/user/'+id,
+               method:"get",
+               headers: {"authorization": localStorage.getItem('authorization')},
+               success:function(data){
+                $('input[name="fullName"]').val(data.data.fullName)
+                $('input[name="DOB"]').val(data.data.DOB)
+                $('input[name="ContactNumber"]').val(data.data.contactNumber)
+                $('input[name="email"]').val(data.data.email)
+               }
+              });
+            }
+            $("#uploadForm").submit(function() {
+            let form_data = new FormData(this);
+            let URL = $(location).attr('href');
+            let id = URL.substring(URL.lastIndexOf('/') + 1);
+            $.ajax({
+                url:'http://localhost:2020/api/v1/user/'+id,
+                method:"put",
+                async: false,
+                contentType: false,
+                processData: false,
+                cache: false,
+                data: form_data,
+                headers: {"authorization": localStorage.getItem('authorization')},
+                success: function (data) {
+                  alert("profile Updated  succesfully");
+                }
+              })
+            });
+          });
+        </script>
+    </body>
+  </html>

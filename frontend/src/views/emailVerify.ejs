@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Delete user</title>
+    </head>
+    <body>
+
+        <div class="container"></div>
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+        </script>
+        <script>
+            $(document).ready(function () 
+            {
+                load()
+                function load(){
+                    let URL = $(location).attr('href');
+                    let verificationToken = URL.substring(URL.lastIndexOf('/') + 1);
+                    $.ajax({
+                        url:'http://localhost:2020/api/v1/auth/email-verify/'+verificationToken,
+                        method:"patch",
+                        dataType: "json",
+                        success: function (data) {
+                            alert(" email verified succesfully");
+                            location.replace("/login")
+                        }
+                    });
+                }
+            });         
+        </script>
+    </body>
+</html>

@@ -1,0 +1,41 @@
+<%- include('userDashboard'); -%>
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0">
+            <title>Delete cart</title>
+        </head>
+        <body>
+           
+            <script
+                src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"> </script>
+            <script>
+                $(document).ready(function () {
+                    load()
+                    function load(){
+                    
+                        let URL = $(location).attr('href');
+                        let id = URL.substring(URL.lastIndexOf('/') + 1);
+                        if(confirm("Do you want to delete cart..?")){
+                            $.ajax({
+                                url:'http://localhost:2020/api/v1/cart/'+id,
+                                method:"delete",
+                                headers: {"authorization": localStorage.getItem('authorization')},
+                                dataType: "json",
+                                success: function (data) {
+                                alert(data.message);
+                                location.replace("/cart")
+                                }
+                            });
+                        }
+                        else{
+                            location.replace("/cart")
+                        }
+                    }
+                })
+                </script>
+        </body>
+    </html>

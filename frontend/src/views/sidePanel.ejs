@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Side Panel</title>
+      <link rel="stylesheet"
+         href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
+      <style>
+         *{
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            box-sizing: border-box;
+            font-family:sans-serif;
+         
+         }
+         body{
+            background: white;
+         }
+         .Container .section{
+            width: calc(100% - 225px);
+            margin-left: 225px;
+            transition: all 0.5s ease;
+         }
+         .navB{
+            background:#10558d;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            margin-top: auto;
+         }
+         .burgerSign a{
+            font-size: 28px;
+            color: #f4fbff;
+         }
+         .Container .section .navB .burgerSign a:hover{
+            color:#10558d;
+         }
+         .item_side_container{
+            background: #10558d;
+            position: fixed;
+            width: 225px;
+            height: 100%;
+            padding: 20px 0;
+            top: 0px;
+            left: 0px;
+            transition: all 0.5s ease;
+         }
+         .details{
+            margin-top: 5px;
+            margin-bottom: 30px;
+            margin-left: 40px;
+         }
+         .details h2{
+            color: #ffffff;
+            margin-left: 13px;
+            margin-top: 0px;
+         }
+         .details img{
+            width: 55px;
+            border-radius: 50%;
+            margin: 0 auto;
+         }
+         .item_side_container ul li a{
+            display: block;
+            font-size: 16px;
+            position: relative;
+            padding: 13px 30px;
+            border-bottom: 1px solid #10558d;
+            color: rgb(241, 237, 237);
+            text-decoration: none;
+            
+         }
+         .item_side_container ul li a .icon{
+            color: black;
+            width: 30px;
+            display: inline-block;
+            margin-left: 10px;
+            
+         }
+         
+         .item_side_container ul li a:hover .icon,
+         .item_side_container ul li a.active .icon{
+            color: #e1edf7;
+         }
+         body.active .Container .item_side_container{
+            left: -225px;
+         }
+         body.active .Container .section{
+            margin-left: 0;
+            width: 100%;
+         }
+         #powerBtn {
+         background-color:transparent;
+         border: none;
+         color: white;
+         padding: 12px 16px;
+         font-size: 16px;
+         cursor: pointer;
+         margin-left: auto;
+         
+         }
+         .icon:hover{
+            background-color:gray;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="Container">
+         <div class="section">
+            <div class="navB">
+               <div class="burgerSign">
+                  <a href="#">
+                     <i class="fas fa-bars"></i>
+                  </a>
+               </div>
+               <div id="powerBtn" class="burgerSign" data-toggle="tooltip"
+                  title="Log out">
+                  <a href="/logout"><i class="fa fa-power-off"></i> </a>
+               </div>
+            </div>
+         </div>
+         <div class="item_side_container">
+            <div class="details">
+               <!-- <img
+                  src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg"
+                  alt="profile_picture"> -->
+               <h2>Admin</h2>
+            </div>
+            <ul class="items">
+               <li data-toggle="tooltip" title="Home">
+                  <a class="icon" href="/admin/home"><i class="fa fa-home fa-fw"
+                        aria-hidden="true"></i>&nbsp; Home</a>
+               </li>
+
+               <li data-toggle="tooltip" title="Product">
+                  <a class="icon" href="/product/List"><i class="fas
+                        fa-store-slash"
+                        aria-hidden="true"></i>&nbsp; Product</a>
+               </li>
+
+               <li data-toggle="tooltip" title="User">
+                  <a class="icon" href="/getUser"><i class="fa fa-user"
+                        aria-hidden="true"></i>&nbsp; User</a>
+               </li>
+
+               <li data-toggle="tooltip" title="Change Password">
+                  <a class="icon" href="/changePassword"><i class="fa fa-key"
+                        aria-hidden="true"></i>&nbsp; Change Password</a>
+               </li>
+
+               <li data-toggle="tooltip" title="Change Password">
+                  <a class="icon" href="/admin/profile"><i class="fa-solid fa-user"></i>&nbsp; My Profile</a>
+               </li>
+
+            </ul>
+         </div>
+      </div>
+      <script>
+            document.querySelector(".burgerSign").addEventListener("click", function(){
+               document.querySelector("body").classList.toggle("active");
+            })
+   </script>
+   </body>
+</html>
