@@ -1,0 +1,20 @@
+version: '2'
+services:
+  web:
+    build: .
+    ports:
+      - "2020:2020"
+    volumes:
+      - .:/backend/src
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - TOKEN=${TOKEN}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_DIALECT=${DB_DIALECT}
+    # command: node dist/server/server.js
+    security_opt:
+      - seccomp:"./chrome.json"
