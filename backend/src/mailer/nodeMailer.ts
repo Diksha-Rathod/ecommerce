@@ -3,7 +3,7 @@ dotenv.config();
 import ejs from "ejs";
 import nodemailer from "nodemailer";
 import path from "path";
-
+//mailtrap use
 class NodeMailer {
   async nodeMailer(userData, msg, sentFor) {
     let name = userData.fullName;
